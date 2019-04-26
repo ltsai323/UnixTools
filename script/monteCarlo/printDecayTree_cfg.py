@@ -13,7 +13,7 @@ process.load("PhysicsTools.HepMCCandAlgos.genParticles_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(2) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')

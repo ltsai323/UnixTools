@@ -33,6 +33,10 @@ def addOption():
             '--dirOption', '-d', type=str, default=DIROPTION,
             help='option name to be put on folder name'
             )
+    parser.add_argument(
+            '--stillRunning', '-s', action='store_true',
+            help='option for the jobs is still running, use this option to copy the path file to output directory'
+            )
     return parser.parse_args()
 
 
@@ -51,3 +55,5 @@ if __name__ == '__main__':
         for link in fLinks:
             os.system('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), args.defaultPath, storageFolder) )
     print 'complete! your file is stored at {}/{}'.format(args.defaultPath, storageFolder)
+    if args.stillRunning:
+        os.system( 'cp {0} {1}/{2}/'.format(args.inputPath,args.defaultPath,storageFolder) )

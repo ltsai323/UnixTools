@@ -9,9 +9,9 @@
 #    os.system('./submitJOB.py --command={} --name={}'.format(command.format(i,i,i,i), 'runMCjob_{:02d}'.foramt(i))
 #
 # note, you need to check if you have such directory to write qjob summary!
-defaultStorageFolder='/home/ltsai/Data/qjob/qSubResult/'
-defaultMessageFolder='/home/ltsai/Data/qjob/qSubMessage/'
-defaultErrorFolder  ='/home/ltsai/Data/qjob/qSubMessage/'
+defaultStorageFolder='/home/ltsai/Work/qjob/qSubResult/'
+defaultMessageFolder='/home/ltsai/Work/qjob/qSubMessage/'
+defaultErrorFolder  ='/home/ltsai/Work/qjob/qSubMessage/'
 USER='ltsai'
 
 ###############################
@@ -59,7 +59,7 @@ def addOption():
     import argparse
     parser = argparse.ArgumentParser(description='Hiiii')
     parser.add_argument(
-            '--command', '-c', type=str, default='',
+            '--command', '-c', type=str, default=None,
             help='put your commands in shell'
             )
     parser.add_argument(
@@ -70,11 +70,18 @@ def addOption():
             '--user', '-u', type=str, default=USER,
             help='set user name'
             )
+    parser.add_argument(
+            '--lowPriority', action='store_true',
+            help=''
+            )
 
     return parser.parse_args()
 
 if __name__ == "__main__":
     args=addOption()
+    if not args.command:
+        print 'you need add options, use [--help]'
+        exit()
 
     cmsEnv=getCMSSWVersion()
     pwd=getCurrentPath()
@@ -83,4 +90,7 @@ if __name__ == "__main__":
     file.write( submitSample.format(defaultStorageFolder, defaultMessageFolder, defaultErrorFolder, cmsEnv, pwd, args.command) )
     file.close()
     import os
-    os.system( "qsub /tmp/{}/tmpSh.sh -N {}".format(args.user, args.name) )
+    if args.lowPriority:
+        os.system( "qsub /tmp/{}/tmpSh.sh -N {} -p -500".format(args.user, args.name) )
+    else:
+        os.system( "qsub /tmp/{}/tmpSh.sh -N {} -p 1".format(args.user, args.name) )
