@@ -6,13 +6,19 @@
 # usage:
 #     ./thisFile.py -i path -d 2016RunC
 #     ./thisfile.py -i path -d 2016RunC --site=se01.grid.nchc.org.tw --defaultPath=${HOME}/myDataStorage
-REMOTESITE='se01.grid.nchc.org.tw'
-DEFAULTPATH='${HOME}/Data/CRABdata'
-DIROPTION='default'
+# The executed command is:
+#       xrdcp root://se01.grid.nchc.org.tw//cms/store/user/ltsai/2016Data/treeData/Charmonium/treeData_2016RunC/180904_064826/0000/treeCreatingSpecificDecay_2017Data_1.root myLocalFolder/
 
 import datetime
 import argparse
 import os, sys
+import commands
+
+__home=commands.getoutput('echo $HOME')
+REMOTESITE='se01.grid.nchc.org.tw'
+DEFAULTPATH=__home+'/Data/CRABdata'
+DIROPTION='default'
+
 
 # add parser to the code
 def addOption():
@@ -45,15 +51,18 @@ if __name__ == '__main__':
     if args.inputPath == '':
         print 'you need to use [-i] or [--inputPath] to select a file to download, or use [--help]'
         exit()
+    defPath=args.defaultPath
+    if not os.path.exists(args.defaultPath) or not os.path.isdir(args.defaultPath):
+        print '-------Warning : default path not found! turn to use current directory'
+        defPath='.'
 
     storageFolder='CRABdata_{0}_{1}'.format(args.dirOption,datetime.datetime.now().date().strftime('%d_%m_%Y'))
-    os.system( 'mkdir -p {}/{}'.format(args.defaultPath, storageFolder) )
-    print 'file will storage at this folder : {}'.format(storageFolder)
-    os.system( 'ls {}'.format(args.defaultPath) )
+    os.system( 'mkdir -p {0}/{1}'.format(defPath, storageFolder) )
+    print 'file will storage at this folder : {0}'.format(storageFolder)
 
     with open( args.inputPath, 'r' ) as fLinks:
         for link in fLinks:
-            os.system('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), args.defaultPath, storageFolder) )
-    print 'complete! your file is stored at {}/{}'.format(args.defaultPath, storageFolder)
+            os.system('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), defPath, storageFolder) )
+    print 'complete! your file is stored at {}/{}'.format(defPath, storageFolder)
     if args.stillRunning:
-        os.system( 'cp {0} {1}/{2}/'.format(args.inputPath,args.defaultPath,storageFolder) )
+        os.system( 'cp {0} {1}/{2}/'.format(args.inputPath,defPath,storageFolder) )

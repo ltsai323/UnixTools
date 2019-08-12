@@ -13,23 +13,19 @@ process.load("PhysicsTools.HepMCCandAlgos.genParticles_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 from FWCore.ParameterSet.VarParsing import VarParsing
-options = VarParsing ('analysis')
-options.register ('fileName',
-        '',
-        VarParsing.multiplicity.singleton,
-        VarParsing.varType.string,
-        "filename to analysis")
+options = VarParsing ('standard')
+options.setDefault('maxEvents', 10)
 options.parseArguments()
-print options.fileName
+if not len(options.files):
+    options.help()
+    print "   ---   you need to setup the 'inputFiles' option"
+myFile=[ 'file:{}'.format(iF) for iF in options.files ]
+
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(options.maxEvents) )
 process.source = cms.Source("PoolSource",
-        # replace 'myfile.root' with the source file you want to use
-        fileNames = cms.untracked.vstring( 'file:' + options.fileName )
-        #fileNames = cms.untracked.vstring(
-        #    'file:step1.root'
-        #    )
+        fileNames = cms.untracked.vstring( myFile )
         #eventsToProcess = cms.untracked.VEventRange('1:8-1:6','2:100-3:max'),
         #eventsToSkip = cms.untracked.VEventRange('1:1-1:6','2:100-3:max'),
         #lumisToProcess = cms.untracked.VLuminosityBlockRange('1:1-1:6','2:100-3:max'),

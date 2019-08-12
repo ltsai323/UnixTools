@@ -2,7 +2,45 @@
 # this pyhon file mainly execute the command many times:
 #    xrdfs se01.grid.nchc.org.tw ls /cms/store/user/ltsai/???
 # to get crab data
-# and the result is put in ./path
+# and the result is put in ./path.txt
+# normal usage:
+#   ./thisFile.py -u ltsai
+# or
+#   ./thisFile.py -i myPath.txt    where myPath.txt owns the content '/cms/store/user/myFile/Charmonium/'
+# or
+#   ./thisFile.py -i /cms/store/user/myFile/Charmonium/
+
+# the output result would be
+# not terminated:
+#    /cms/store/user/myFile/Charmonium/2016RunH/190718/0000/tree_0.root
+#    /cms/store/user/myFile/Charmonium/2016RunH/190718/0000/tree_1.root
+# terminated:
+#    /cms/store/user/myFile/Charmonium/
+
+
+# enormous usage:
+#     This usage is used get lists from lots of dataset.
+#     By edit the output txt file and input the file again to get lots of output list.
+#        ./thisFile.py -i myPath.txt
+#                   where myPath.txt should have the contents:
+#                        myName1,/cms/store/user/myFile/Charmonium/2016RunH/190718/0000/
+#                        myName2,/cms/store/user/myFile/Charmonium/2016RunG/190718/0000/
+#                        myName3,/cms/store/user/myFile/Charmonium/2016RunF/190718/0000/
+#                        myName4,/cms/store/user/myFile/Charmonium/2016RunE/190718/0000/
+#        'myName1' would be the output file name as 'path_myName1.txt'
+#        This example would generate 4 output files.
+#        To get the content after 'myName1', you need to see the next illustration
+
+# if you want to use [-i][--input] to input a file, there needs to be a '.txt' in name
+# or it would be recognized as a path in remote site.
+
+# in the selection, you can use 'q/Q/0' to quit this program and record current list.
+# you also can use 'L' to list all sub-directories under current list.
+# ('L' option is related to [-i] option)
+
+# if you want to select lots of link file. you can also use
+#     ./thisFile.py -i   outName,/cms/store/user/myFile/Charmonium/2016RunH/190718/0000/
+
 REMOTESITE='se01.grid.nchc.org.tw'
 USER='ltsai'
 
@@ -12,7 +50,7 @@ import commands
 import argparse
 
 class RemoteLS:
-    def __init__( self, remoteSite, user, listAllFiles = False, outFile='path', remotePath = '' ):
+    def __init__( self, remoteSite, user, listAllFiles = False, outFile='path.txt', remotePath = '' ):
         self.__site = remoteSite
         self.__user = user
         self.__path = remotePath
@@ -23,6 +61,10 @@ class RemoteLS:
         self.saveIt()
     def listAll(self):
         return self.__lAll
+    def UpdateOutput(self, oName):
+        self.__file=oName
+    def getOutputFileName(self):
+        return self.__file
     def clearWorkspace(self):
         outfile=open('./{0}'.format(self.__file), 'w')
         outfile.close()
@@ -32,6 +74,10 @@ class RemoteLS:
         while path in pathList:
             outfile.write( path+'\n' )
         outfile.close()
+
+    def targetFOUND(self, inPaths):
+        out=re.match(r'.+/0000', inPaths)
+        return out
 
 
 ######################################################################
@@ -52,16 +98,16 @@ class RemoteLS:
 # write the lists into file
 ###########################
     def saveTmpResult( self, resList ):
-        myFile=open('./tmpPath', 'w') # new line, if file exists, overwrite it.
+        myFile=open('./tmpPath.txt', 'w') # new line, if file exists, overwrite it.
 
         # save each line in input list
         for content in resList:
             myFile.write( content+'\n' )
         myFile.close()
     def removeTmpResult(self):
-        myFile=open('./tmpPath', 'w')
+        myFile=open('./tmpPath.txt', 'w')
         myFile.close()
-        commands.getoutput('rm ./tmpPath')
+        commands.getoutput('rm ./tmpPath.txt')
 
 
 
@@ -137,25 +183,64 @@ def saveResult( myClass, pathList ):
 ##################################################################
 def loopForSearchContent( myClass, initPath='' ):
     searchFolder=initPath
-    print '\n\ntmp result is recorded in (./tmpPath)\n\n'
+    if  myClass.targetFOUND(searchFolder):
+        saveResult(myClass, searchFolder)
+        exit()
+
+    print '\n\ntmp result is recorded in (./tmpPath.txt)\n\n'
     while True:
+
         # receive the return from 'xrdfs ls'
         outList=myClass.viewFile( searchFolder )
 
         # write the results to file
         myClass.saveTmpResult(outList)
 
-        isTargetDirectory=re.match(r'.+/0000', outList[0])
+        isTargetDirectory=myClass.targetFOUND(outList[0])
 
         # keep choosing the directory
         if not isTargetDirectory:
-            print 'please input a number to enter a folder, or input q/Q/0 to quit'
+            print 'please input a number to enter a folder, L to list all of sub-directory, or input q/Q/0 to quit'
             for id_, val in enumerate(outList):
                 print '    ', id_+1, '. ', val
             myChosen=str( raw_input('your choice: ') )
+
+            # quit this program, record current directory
             if myChosen == 'q' or myChosen == 'Q' or myChosen=='0':
-                print 'your temporary result is stored in ./tmpPath'
+                print 'your temporary result is stored in ./tmpPath.txt'
                 exit()
+
+            # if it is needed to list all sub-directory under current directory.
+            elif myChosen == 'L':
+                print 'print all sub-directory in current directory to the file {0}'.format(myClass.getOutputFileName())
+                listedDirs=[]           # record ended paths
+                tmplisteddirs=outList   # record not finished paths
+                while tmplisteddirs:
+                    currentdir=tmplisteddirs[0]
+                    tmplisteddirs.remove(currentdir)
+                    tmpOut=myClass.viewFile(currentdir)
+
+                    finalDir=myClass.targetFOUND(tmpOut[0])
+
+                    if finalDir:
+                        listedDirs.extend(tmpOut)
+                    else:
+                        tmplisteddirs.extend(tmpOut)
+
+                if myClass.getOutputFileName() == 'path.txt':
+                    print 'Warning: output file name not set! choose new name?        (n/N) to default output name "path.txt"'
+                    myChosen=str( raw_input('your choice: ') )
+                    if not myChosen=='n' and not myChosen=="N":
+                        myClass.UpdateOutput(myChosen+'.txt')
+
+                with open(myClass.getOutputFileName(), 'w') as listedFile:
+                    for out in listedDirs:
+                        listedFile.write( out+'\n' )
+
+                print 'Here is your folders to record all of lists (./{0})'.format(myClass.getOutputFileName())
+                myClass.removeTmpResult()
+                exit()
+
 
 
             try:
@@ -174,7 +259,7 @@ def loopForSearchContent( myClass, initPath='' ):
             myClass.clearWorkspace()
             saveResult(myClass, outList)
 
-            print 'Here is your folders to record files (./path)'
+            print 'Here is your folders to record files (./{0})'.format(myClass.getOutputFileName())
             print 'Recording relative files in these folders, please wait!'
             myClass.removeTmpResult()
             exit()
@@ -182,7 +267,7 @@ def loopForSearchContent( myClass, initPath='' ):
 
 # add parser to the code
 def addOption():
-    parser = argparse.ArgumentParser(description='browse remote site by the number')
+    parser = argparse.ArgumentParser(description='browse remote site by the number, open this python to get more detail usage.')
     parser.add_argument(
             '--input', '-i', type=str, default='',
             help='input a initial path to be read in the server'
@@ -206,27 +291,46 @@ def addOption():
 
 if __name__ == '__main__':
     args=addOption()
+    currentUSER=commands.getoutput( 'echo $USER' )
+    if currentUSER != 'ltsai' and args.user == USER:
+        print 'Use [-u][--user] to select user in NCHC. Also, you can check [--help] for information.'
+        exit()
+
     mainControler=RemoteLS(
             remoteSite=args.site,
             user=args.user,
             listAllFiles=args.listAllFiles,
-            outFile='path',
+            outFile='path.txt',
             remotePath=args.input,
             )
     try:
-        inputFile=open(args.input, 'r')
-        initContent=inputFile.read().split()
-        if len(initContent) is not 1:
-            print 'input file has wrong format, check the content. It needs to be only 1 line.'
-            exit()
-        loopForSearchContent( mainControler, initContent[0] )
+        if '.txt' in args.input:
+            print 'Message: recognize input as a file'
+            inputFile=open(args.input, 'r')
+            initContent=inputFile.read().split()
+            if len(initContent) is not 1:
+                print '----ERROR----: input file has wrong format, check the content. It needs to be only 1 line.'
+                exit()
+            loopForSearchContent( mainControler, initContent[0] )
+        else:
+            print 'Message: recognize input as a path in remote dir'
+            if ',' not in args.input:
+                print 'Message: dir = {0}'.format(args.input)
+                loopForSearchContent( mainControler, args.input )
+            else:
+                fName='path_'+args.input.split(',')[0]+'.txt'
+                pName=args.input.split(',')[1]
+                print 'Message: output file = {0}'.format(fName)
+                print 'Message: dir = {0}'.format(pName)
+                mainControler.UpdateOutput(fName)
+                loopForSearchContent( mainControler, pName )
+
     except IOError:
         loopForSearchContent( mainControler, '' )
 
 
-# xrdfs se01.grid.nchc.org.tw ls /cms/store/user/ltsai/??? > path
+# xrdfs se01.grid.nchc.org.tw ls /cms/store/user/ltsai/??? > path.txt
 # main targeet:
 #     show the folders and use the selection by keyboard to get files in command 'xrdfs'
 
 # analyze the output of the string, is folder or file.
-

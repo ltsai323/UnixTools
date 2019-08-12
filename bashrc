@@ -47,10 +47,11 @@ alias astyle='~/local/usr/bin/astyle  --style=allman'
 alias tmux='tmux -2' # for 256 color output
 alias cmsenv='eval `scramv1 runtime -sh`'
 alias cmsrel='scramv1 project CMSSW'
+alias crabcheckWrite='/home/ltsai/script/crab/crabCheckWrite.sh'
 alias g++11='g++ -std=c++0x -o a'
 alias groot="$myScriptBase/tools/compileGRoot.sh "
 alias grootfit="$myScriptBase/tools/compileGRooFit.sh " 
-alias lxplus='ssh ltsai@lxplus7.cern.ch'
+alias lxplus='ssh lxplus'
 alias psmyself='ps -U ltsai'
 alias node01='ssh -x node01'
 alias node02='ssh -x node02'
@@ -85,8 +86,10 @@ alias qkill='qdel -u $USER all'
 alias root='root -b'
 alias qroot='root -b -q'
 alias log='less log'
-alias rmfig='rm /wk_cms/ltsai/LbFrame/workspace/storefig/*'
+alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
 alias rmqjobhistory='rm /home/ltsai/Work/qjob/qSubMessage/* ; rm /home/ltsai/Work/qjob/qSubResult/*'
+alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
+
 
 
 if [ "$HOSTNAME" == 'ntugrid5.phys.ntu.edu.tw' ]; then
