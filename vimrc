@@ -1,12 +1,13 @@
 " .vimrc
 " See: http://vimdoc.sourceforge.net/htmldoc/options.html for details
 " usage : 
-"   1. execute command :   git clone https://github.com/gmarik/vundle.git ~/.vim/vundle
-"   2. open vim and execute command    ':PlugInstall'
+"   0. execute command to create default directory : mkdir -p ${HOME}/local/.vim/backup
+"   1. execute command :   git clone https://github.com/gmarik/vundle.git ${HOME}/local/.vim/vundle
+"   2. open vim and execute command    ':PluginInstall'
 "   3. if you want to clean the packages useless, use ':BundleClean'
 
 ""----  Define System Environment ----------------------------------------------
-set backupdir=~/.vim/backup
+set backupdir=~/local/.vim/backup
 let s:uname = system("uname -s")
 let s:hostname = system("echo $HOSTNAME")
 let g:vimenv = $HOME.'/local/.vim'
@@ -105,9 +106,10 @@ set wildignore+=*~,*.swp,*.tmp
 ""----  Vundle settings  -------------------------------------------------------
 set nocompatible
 filetype off
-set rtp+=~/.vim/vundle
+set rtp+=~/local/.vim/vundle
 call vundle#begin()
 
+Plugin 'nanotech/jellybeans.vim', {'dir': g:vimenv.'/colors/jellybeans.vim'}
 Plugin 'scrooloose/nerdtree'
 Plugin 'godlygeek/tabular'
 Plugin 'Yggdroot/indentLine'
@@ -121,16 +123,13 @@ filetype on
 filetype plugin on
 filetype indent on 
 
-""----  Molokai settings  ------------------------------------------------------
 syntax on
 set t_Co=256
-colorscheme molokai
-let g:molokai_original=1
-"let g:rehash256 = 1
 hi Normal ctermbg=none 
 "private
 hi String  ctermfg=11
 
+""----  Modified jellybeans setting --------------------------------------------
 if filereadable(g:vimenv.'/colors/jellybeans.vim/colors/jellybeans.vim')
     let g:jellybeans_background_color_256="none"
     colo jellybeans
