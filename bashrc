@@ -85,10 +85,12 @@ alias qlog='~/script/qjob/clearQJOBmessageDirectory.py'
 alias qkill='qdel -u $USER all'
 alias root='root -b'
 alias qroot='root -b -q'
+alias figroot='unalias root; alias root="root -l"'
 alias log='less log'
 alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
 alias rmqjobhistory='rm /home/ltsai/Work/qjob/qSubMessage/* ; rm /home/ltsai/Work/qjob/qSubResult/*'
 alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
+alias rmtrash='/bin/rm -rf ~/.trash/* '
 
 
 

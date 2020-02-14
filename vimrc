@@ -1,16 +1,18 @@
 " .vimrc
 " See: http://vimdoc.sourceforge.net/htmldoc/options.html for details
 " usage : 
-"   0. execute command to create default directory : mkdir -p ${HOME}/local/.vim/backup
-"   1. execute command :   git clone https://github.com/gmarik/vundle.git ${HOME}/local/.vim/vundle
+"   0. execute command to create default directory : mkdir -p ${HOME}/.vim/backup
+"   1. execute command :   git clone https://github.com/gmarik/vundle.git ${HOME}/.vim/vundle
 "   2. open vim and execute command    ':PluginInstall'
 "   3. if you want to clean the packages useless, use ':BundleClean'
-
+"
 ""----  Define System Environment ----------------------------------------------
-set backupdir=~/local/.vim/backup
+"set backupdir=~/local/.vim/backup
+set backupdir=~/.vim/backup
 let s:uname = system("uname -s")
 let s:hostname = system("echo $HOSTNAME")
-let g:vimenv = $HOME.'/local/.vim'
+"let g:vimenv = $HOME.'/local/.vim'
+let g:vimenv = $HOME.'/.vim'
 
 ""----  Indention settings  ----------------------------------------------------
 set tabstop=4
@@ -33,6 +35,7 @@ set noincsearch
 ""----  Number column settings  ------------------------------------------------
 set number
 set numberwidth=3
+set scrolloff=6
 
 
 ""----  Misc. Settings  --------------------------------------------------------
@@ -45,7 +48,7 @@ set formatoptions=c,q,r,t
 set ruler
 set cursorline
 set background=dark
-set mouse=""                        " disable all mouse action.
+set mouse=                          " disable all mouse action.
 set noeb
 set linebreak
 set history=20
@@ -106,7 +109,8 @@ set wildignore+=*~,*.swp,*.tmp
 ""----  Vundle settings  -------------------------------------------------------
 set nocompatible
 filetype off
-set rtp+=~/local/.vim/vundle
+"set rtp+=~/local/.vim/vundle
+set rtp+=~/.vim/vundle
 call vundle#begin()
 
 Plugin 'nanotech/jellybeans.vim', {'dir': g:vimenv.'/colors/jellybeans.vim'}
@@ -130,7 +134,7 @@ hi Normal ctermbg=none
 hi String  ctermfg=11
 
 ""----  Modified jellybeans setting --------------------------------------------
-if filereadable(g:vimenv.'/colors/jellybeans.vim/colors/jellybeans.vim')
+if filereadable(g:vimenv.'/bundle/jellybeans.vim/colors/jellybeans.vim')
     let g:jellybeans_background_color_256="none"
     colo jellybeans
     hi Search cterm=bold,standout ctermfg=11 
