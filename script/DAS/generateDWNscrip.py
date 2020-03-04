@@ -5,7 +5,7 @@
 #  ./this.py -d flashGG --exec -s myCustomDAS_CLIENT.sh -o customDWN.sh
 #not used  # massive usage:
 #not used  #  ./this.py -d hihi -s massiveDAS_CLIENT.sh // automatically use tag to classify output files.
-_path='${{HOME}}/ReceivedFile/DATA/CMSData/{info}/'
+DEFAULT_PATH='${{HOME}}/ReceivedFile/DATA/cmsdata/{info}/'
 
 scriptContent='''#!/usr/bin/env sh
 export XRD_NETWORKSTACK=IPv4
@@ -102,7 +102,7 @@ if __name__ == "__main__":
             outAddr=linetemplateAccomplish(writeContents[0]['outAddrs'],foldername)
             with open('download.sh','w') as f:
                 f.write(scriptContent.format(
-                    MYstorage=_path.format(info=foldername),
+                    MYstorage=DEFAULT_PATH.format(info=foldername),
                     MYcommands=outAddr,
                     origCommand=writeContents[0]['origCommand']
                     )
@@ -113,7 +113,7 @@ if __name__ == "__main__":
                 outAddr=linetemplateAccomplish(writeContent['outAddrs'],foldername)
                 with open('download_{0}.sh'.format(writeContent['era']),'w') as f:
                     f.write(scriptContent.format(
-                        MYstorage=_path.format(info=foldername),
+                        MYstorage=DEFAULT_PATH.format(info=foldername),
                         MYcommands=outAddr,
                         origCommand=writeContent['origCommand']
                         )
