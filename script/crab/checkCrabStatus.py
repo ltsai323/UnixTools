@@ -1,4 +1,7 @@
 #!/usr/bin/env python2
+# usage: ./thisFile.py
+#    edit checkList and execute it, 'dir' can be relative or absolute path
+
 outfilename='log_crabStatus.txt'
 checkList=[
 {'id': 0,'dir':'CRAB_projects_ntuples/crab_sigMC_Pt100To250_13TeV-amcatnlo-pythia8_v3-ext1-v2_sub01'},
