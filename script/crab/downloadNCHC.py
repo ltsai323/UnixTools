@@ -43,6 +43,9 @@ def addOption():
             '--stillRunning', '-s', action='store_true',
             help='option for the jobs is still running, use this option to copy the path file to output directory'
             )
+    parser.add_argument(
+            '--createDefaultPath',action='store_true'
+            )
     return parser.parse_args()
 
 
@@ -52,10 +55,14 @@ if __name__ == '__main__':
         print 'you need to use [-i] or [--inputPath] to select a file to download, or use [--help]'
         exit()
     defPath=args.defaultPath
-    if not os.path.exists(args.defaultPath) or not os.path.isdir(args.defaultPath):
+    if args.createDefaultPath:
+        'still use default path'
+        pass
+    elif not os.path.exists(args.defaultPath) or not os.path.isdir(args.defaultPath):
         print '-------Warning : default path not found! turn to use current directory'
         defPath='.'
 
+    print 'default path = ' + defPath
     storageFolder='CRABdata_{0}_{1}'.format(args.dirOption,datetime.datetime.now().date().strftime('%d_%m_%Y'))
     os.system( 'mkdir -p {0}/{1}'.format(defPath, storageFolder) )
     print 'file will storage at this folder : {0}'.format(storageFolder)

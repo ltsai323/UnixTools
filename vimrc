@@ -122,6 +122,7 @@ Plugin 'drmingdrmer/vim-syntax-markdown'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'Mizuchi/STL-Syntax'
 Plugin 'hdima/python-syntax'
+"Plugin 'ycm-core/YouCompleteme'
 call vundle#end()
 filetype on 
 filetype plugin on
