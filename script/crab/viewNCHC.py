@@ -131,14 +131,23 @@ class RemoteLS:
 # list all root file from the path list
 #######################################
 def recordRootResult( myClass, path ):
+#    print 'check point recordRootResult 01 --- path = {0}'.format(path)
     filepaths=myClass.viewFile(path)
+#    print 'check point recordRootResult 02 --- filepaths = {0}'.format(filepaths)
     if filepaths is None:
         return
+#    print 'check point recordRootResult 03 --- filepath={0}'.format(filepaths)
     for content in filepaths:
+#        print 'check point recordRootResult 03.01'
         mode=re.search(r'\w+\.root', content)
+#        print 'check point recordRootResult 03.02'
         if not mode:
+#            print 'check point recordRootResult 03.02.continue --' + content
             continue
+#        print 'check point recordRootResult 03.03'
         myClass.recordPath(content)
+#        print 'check point recordRootResult 03.04'
+#    print 'check point recordRootResult end'
 
 #######################################
 # list all root file from the path list
@@ -168,12 +177,20 @@ def recordAllResult( myClass, path ):
 # save all results recoreded in pathList
 ########################################
 def saveResult( myClass, pathList ):
+#    print 'check point in saveResult 01 pathList={0}'.format(pathList)
     if myClass.listAll():
+#        print 'check point in saveResult 02'
         for path in pathList:
             recordAllResult( myClass, path )
+#        print 'check point in saveResult 02.01'
     else:
-        for path in pathList:
-            recordRootResult( myClass, path )
+#        print 'check point in saveResult 03'
+        if isinstance(pathList, list):
+            for path in pathList:
+                recordRootResult( myClass, path )
+        elif isinstance(pathList, str):
+            recordRootResult( myClass, pathList )
+#        print 'check point in saveResult 03.01'
 
 
 
@@ -182,19 +199,26 @@ def saveResult( myClass, pathList ):
 # and ask user which folder want to enter.
 ##################################################################
 def loopForSearchContent( myClass, initPath='' ):
+#    print 'check point in loop 01 initPath={0}'.format(initPath)
     searchFolder=initPath
     if  myClass.targetFOUND(searchFolder):
+#        print 'check point in loop 01.01'
         saveResult(myClass, searchFolder)
+#        print 'check point in loop 01.02'
         exit()
+#    print 'check point in loop 02'
 
     print '\n\ntmp result is recorded in (./tmpPath.txt)\n\n'
     while True:
+#        print 'check point in loop 03'
 
         # receive the return from 'xrdfs ls'
         outList=myClass.viewFile( searchFolder )
 
+#        print 'check point in loop 04'
         # write the results to file
         myClass.saveTmpResult(outList)
+#        print 'check point in loop 05'
 
         isTargetDirectory=myClass.targetFOUND(outList[0])
 
@@ -323,7 +347,9 @@ if __name__ == '__main__':
                 print 'Message: output file = {0}'.format(fName)
                 print 'Message: dir = {0}'.format(pName)
                 mainControler.UpdateOutput(fName)
+                print 'test point a'
                 loopForSearchContent( mainControler, pName )
+                print 'test point b'
 
     except IOError:
         loopForSearchContent( mainControler, '' )

@@ -18,6 +18,7 @@ __home=commands.getoutput('echo $HOME')
 REMOTESITE='se01.grid.nchc.org.tw'
 DEFAULTPATH=__home+'/Data/CRABdata'
 DIROPTION='default'
+FAILEDLOG='log_failedDownload.log'
 
 
 # add parser to the code
@@ -48,7 +49,6 @@ def addOption():
             )
     return parser.parse_args()
 
-
 if __name__ == '__main__':
     args=addOption()
     if args.inputPath == '':
@@ -67,9 +67,38 @@ if __name__ == '__main__':
     os.system( 'mkdir -p {0}/{1}'.format(defPath, storageFolder) )
     print 'file will storage at this folder : {0}'.format(storageFolder)
 
-    with open( args.inputPath, 'r' ) as fLinks:
-        for link in fLinks:
-            os.system('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), defPath, storageFolder) )
-    print 'complete! your file is stored at {}/{}'.format(defPath, storageFolder)
+    failedLog=open(FAILEDLOG,'a')
+
+    with open( args.inputPath, 'r' ) as inFile:
+        fLinks=inFile.read().split('\n')
+
+        for idx,link in enumerate(fLinks):
+            if 'root' in link:
+                sys.stdout.write('\rProcessing files %d in %d' % (idx, len(fLinks)))
+                sys.stdout.flush()
+                #os.system('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), defPath, storageFolder) )
+                res=commands.getstatusoutput('xrdcp root://{0}/{1}  {2}/{3}/'.format(args.site, link.strip(), defPath, storageFolder) )
+                if res[0]:
+                    failedMessage='''
+############ an error found ##################
+## input path = {pathInfo}
+## command: xrdcp root://{rSite}/{rPath} {lPath0}{lPath1}
+## messages : {msg}
+##############################################
+
+'''
+                    failedLog.write( failedMessage.format(pathInfo=link.strip(), msg=res[1],rSite=args.site,rPath=link.strip(),lPath0=defpath,lPath1=storageFolder) )
+                    print '''
+############ an error found #################
+## input path = {pathInfo}
+## messages : {msg}
+##############################################
+
+'''.format(pathInfo=link.strip(),msg=res[1])
     if args.stillRunning:
         os.system( 'cp {0} {1}/{2}/'.format(args.inputPath,defPath,storageFolder) )
+    failedLog.close()
+    print '''
+complete! your file is stored at {0}/{1}
+
+'''.format(defPath, storageFolder)

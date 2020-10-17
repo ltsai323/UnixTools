@@ -15,9 +15,9 @@ let s:hostname = system("echo $HOSTNAME")
 let g:vimenv = $HOME.'/.vim'
 
 ""----  Indention settings  ----------------------------------------------------
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=3
+set softtabstop=3
+set shiftwidth=3
 set smarttab
 set autoindent
 set whichwrap=b,s                   " set whichwrap=b,s,<,>,[,]
@@ -172,7 +172,6 @@ endif
 "let g:ycm_add_preview_to_completeopt = 0 
 "" Disable auto syntaz checker 
 "let g:ycm_register_as_syntastic_checker = 0
-
 
 set term=xterm-256color
 

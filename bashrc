@@ -22,7 +22,10 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/usr/lib/
 # force to 256 color (in order to use color in tmux
 export TERM='xterm-256color'
 # change the format of the command line
-export PS1='\[\e[0;37m\]\u@\h:\[\e[1;34m\]\w\n\[\e[0;38m\]  cmd > '
+export PS1='\[\e[0;37m\]\u@\h:\[\e[1;34m\]\w\[\e[0;38m\]\n > '
+export EDITOR=/home/ltsai/local/usr/bin/vim
+
+
 
 
 myScriptBase=${HOME}/script
@@ -75,7 +78,8 @@ alias node19='ssh -x node19'
 alias node20='ssh -x node20'
 alias nodes='$(printf "ssh -x node%02d" $((${RANDOM} % 20 + 1)))'
 alias rm='mv -t ~/.trash'
-alias show='gnome-open'
+alias show='eos'
+alias img='imgcat'
 alias vi='~/local/usr/bin/vim -X'
 alias vis='~/local/usr/bin/vim -X -p'
 alias qjobs='qstat -u ltsai'
@@ -91,13 +95,3 @@ alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
 alias rmqjobhistory='rm /home/ltsai/Work/qjob/qSubMessage/* ; rm /home/ltsai/Work/qjob/qSubResult/*'
 alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
 alias rmtrash='/bin/rm -rf ~/.trash/* '
-
-
-
-if [ "$HOSTNAME" == 'ntugrid5.phys.ntu.edu.tw' ]; then
-    node01
-elif [ "$HOSTNAME" == 'ntugrid5' ]; then
-    node01
-else
-    echo "login into: $HOSTNAME"
-fi
