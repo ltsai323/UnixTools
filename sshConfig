@@ -1,0 +1,40 @@
+ServerAliveInterval 120
+Host lxplus
+    HostName lxplus7.cern.ch
+    User ltsai
+    Port 22
+    TCPKeepAlive yes
+Host hep1
+    HostName hep1.phys.ntu.edu.tw
+    User johnson20050
+    Port 22
+    TCPKeepAlive yes
+Host ntu
+    HostName ntugrid5.phys.ntu.edu.tw
+    User ltsai
+    Port 22
+    TCPKeepAlive yes
+    IdentityFile ~/.ssh/NTUgrid
+    RemoteCommand /home/ltsai/local/usr/bin/bash --rcfile /home/ltsai/.ssh/bash_loginFromLinux.sh
+    RequestTTY force
+
+    # 'RequestTTY force' is equivalent to -t option in ssh
+Host node
+    HostName ntugrid5.phys.ntu.edu.tw
+    User ltsai
+    Port 22
+    TCPKeepAlive yes
+    IdentityFile ~/.ssh/NTUgrid
+    RemoteCommand ssh ltsai@node01 -t /home/ltsai/local/usr/bin/bash --rcfile /home/ltsai/.ssh/bash_loginFromLinux_openTmux.sh
+Host git
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/gitKey
+Host ptt
+    HostName ptt.cc
+    USer bbsu
+    Port 22
+Host RS
+    HostName 140.112.101.186
+    User ltsai
+    Port 22

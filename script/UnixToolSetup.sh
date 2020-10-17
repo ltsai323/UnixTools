@@ -5,3 +5,4 @@ cp    -f ../bashrc    ~/.bashrc
 cp    -f ../vimrc     ~/.vimrc     
 cp    -f ../tmux.conf ~/.tmux.conf 
 cp    -f ../inputrc   ~/.inputrc   
+cp    -f ../ssh       ~/.ssh
