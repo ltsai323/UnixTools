@@ -34,6 +34,7 @@ set noincsearch
 
 ""----  Number column settings  ------------------------------------------------
 set number
+set relativenumber
 set numberwidth=3
 set scrolloff=6
 

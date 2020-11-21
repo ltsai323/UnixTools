@@ -1,0 +1,21 @@
+Host git
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/gitKey
+Host lxplus
+    HostName lxplus7.cern.ch
+    User ltsai
+    Port 22
+    TCPKeepAlive yes
+Host hep1
+    HostName hep1.phys.ntu.edu.tw
+    User johnson20050
+    Port 22
+    TCPKeepAlive yes
+    IdentityFile ~/.ssh/toHep1
+Host RS
+    HostName 140.112.101.186
+    User ltsai
+    TCPKeepAlive yes
+    IdentityFile ~/.ssh/RSlogin
+    Port 22

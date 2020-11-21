@@ -16,7 +16,8 @@ source /cvmfs/cms.cern.ch/cmsset_default.sh
 
 # export SCRAM_ARCH=slc7_amd64_gcc630    # open it when you login lxplus7
 export QLOGDIR=/home/ltsai/Work/qjob/qSubMessage/
-export PATH=${PATH}:${HOME}/local/bin
+#export PATH=${PATH}:${HOME}/local/bin
+export PATH=${HOME}/local/bin:${HOME}/local/usr/bin:${PATH}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/usr/lib/
 
 # force to 256 color (in order to use color in tmux
@@ -95,3 +96,4 @@ alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
 alias rmqjobhistory='rm /home/ltsai/Work/qjob/qSubMessage/* ; rm /home/ltsai/Work/qjob/qSubResult/*'
 alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
 alias rmtrash='/bin/rm -rf ~/.trash/* '
+alias grep='grep --color=always'
