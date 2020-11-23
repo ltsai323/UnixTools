@@ -32,7 +32,7 @@ export EDITOR=/home/ltsai/local/usr/bin/vim
 myScriptBase=${HOME}/script
 alias Date="$myScriptBase/tools/Updater.sh"
 alias HISTORYRECORD='vim /home/ltsai/Work/history/Update.txt'
-alias VOrefresh="$myScriptBase/tools/renewVO.sh" 
+alias voupdater="$myScriptBase/tools/renewVO.sh" 
 alias ll='ls -l'
 alias ls='ls --color=auto'
 alias lt='ls --color=auto -tr'
