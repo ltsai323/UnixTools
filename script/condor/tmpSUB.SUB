@@ -1,0 +1,17 @@
+universe = vanilla
+Executable = sumbit.sh
++JobFlavour="workday"
+should_transfer_files = YES
+transfer_input_files = LbToPcK_py_DIGIPREMIX_S2_DATAMIX_L1_DIGI2RAW_HLT.py, LbToPcK_py_RAW2DIGI_RECO_EI_DQM.py, tmpSh.sh, remoteFileList.txt
+transfer_output_files = step3_$(Process).root
+when_to_transfer_output = ON_EXIT
+use_x509userproxy = true
+Output = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/output/log_job_$(Process)
+Error  = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/errors/log_job_$(Process)
+Log    = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/stdout/log_job_$(Process)
+getenv=true
+RequestCpus = 4
+
+max_retries = 1
+Arguments  = $(remoteFILE) $(Process)
+Queue remoteFILE from remoteFileList.txt

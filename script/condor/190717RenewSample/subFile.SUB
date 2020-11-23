@@ -1,0 +1,17 @@
+universe = vanilla
+Executable = submit.sh
++JobFlavour="workday"
+should_transfer_files = YES
+transfer_input_files = VCCAnalyzer.py, $(myPath)/$(myFile)
+use_x509userproxy = true
+Output = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/output/log_job_$(myPath).$(myPath)_$(Process)
+Error  = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/errors/log_job_$(myPath).$(myPath)_$(Process)
+Log    = /afs/cern.ch/user/l/ltsai/Work/jobSummary/condor/stdout/log_job_$(myPath).$(myPath)_$(Process)
+max_retries = 1
+notify_user=johnson20050@gmail.com
+notification=Error
+
+
+Arguments  = $(myFile) 531 4 $(myPath) $(Process)
+batch_name=sublist_BsToJpsiKK.sub
+Queue myPath, myFile from list_BsToJpsiKK
