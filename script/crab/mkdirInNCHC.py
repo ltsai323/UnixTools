@@ -47,7 +47,10 @@ if __name__ == "__main__":
         print 'you need to use [-d] or [--dir] option t to make a new directory\n'
         print 'futher information, using [--help] option.'
         exit()
-    output=commands.getstatusoutput( 'xrdfs {0} mkdir /cms/store/user/{1}/{2}'.format(args.site, args.user, args.dir) )
+    if args.dir[0] == '/':
+        output=commands.getstatusoutput( 'xrdfs {0} mkdir /cms{1}'.format(args.site, args.dir) )
+    else:
+        output=commands.getstatusoutput( 'xrdfs {0} mkdir /cms/store/user/{1}/{2}'.format(args.site, args.user, args.dir) )
     if output[0] == 0:
         print "sucess to create new directory :"
         print "/cms/store/user/{0}/{1}".format(args.user,args.dir)
