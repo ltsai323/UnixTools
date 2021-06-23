@@ -15,9 +15,9 @@ let s:hostname = system("echo $HOSTNAME")
 let g:vimenv = $HOME.'/.vim'
 
 ""----  Indention settings  ----------------------------------------------------
-set tabstop=3
-set softtabstop=3
-set shiftwidth=3
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set smarttab
 set autoindent
 set whichwrap=b,s                   " set whichwrap=b,s,<,>,[,]
@@ -56,19 +56,6 @@ set history=20
 set t_Co=256
 
 
-""----  NERDTree + CtrlP + TagBar  ---------------------------------------------
-let g:NERDTreeShowBookmarks=1
-let g:NERDTreeChDirMode=2
-let g:ctrlp_working_path_mode='rc'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll|pyc)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_max_depth = 10
-let g:ctrlp_max_files = 10000
 
 ""----  Open on previous position  ---------------------------------------------
 "if has("autocmd")
@@ -78,10 +65,16 @@ let g:ctrlp_max_files = 10000
 
 ""----  Custom key mapping  ----------------------------------------------------
 noremap    <F1>             <nop>
-nnoremap <silent> <F5>      : NERDTreeTabsToggle<CR>
+" repeat last command
+nnoremap    <F1>            @:
+" execute current file
+nnoremap    <F4>            :!./%
+" execute make command
+nnoremap    <F5>            :!make
 nnoremap    <F2>            :tabe<Space>
 nnoremap    <F8>            :tabp<CR>
 nnoremap    <F9>            :tabn<CR>
+nnoremap   gf    <C-w>gf
 
 " disable all scrolling
 noremap <ScrollWheelUp> <nop>
@@ -115,14 +108,13 @@ set rtp+=~/.vim/vundle
 call vundle#begin()
 
 Plugin 'nanotech/jellybeans.vim', {'dir': g:vimenv.'/colors/jellybeans.vim'}
-Plugin 'scrooloose/nerdtree'
 Plugin 'godlygeek/tabular'
 Plugin 'Yggdroot/indentLine'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'drmingdrmer/vim-syntax-markdown'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'Mizuchi/STL-Syntax'
-Plugin 'hdima/python-syntax'
+Plugin 'drmingdrmer/vim-syntax-markdown', { 'for': 'markdown' }
+Plugin 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+Plugin 'Mizuchi/STL-Syntax', { 'for': 'cpp' }
+Plugin 'hdima/python-syntax', { 'for':'python' }
+Plugin 'easymotion/vim-easymotion'
 "Plugin 'ycm-core/YouCompleteme'
 call vundle#end()
 filetype on 
@@ -174,7 +166,10 @@ endif
 "" Disable auto syntaz checker 
 "let g:ycm_register_as_syntastic_checker = 0
 
-set term=xterm-256color
+if has('nvim')
+else
+    set term=xterm-256color
+endif
 
 """----  Markdown syntax settings  ----------------------------------------------
 "let g:vim_markdown_math=1
@@ -195,6 +190,8 @@ let g:cpp_concepts_highlight = 1
 """Python
 let python_highlight_all = 1
 
+""" --- easymotion setting ------------------------------------------------------
+let g:EasyMotion_smartcase = 1
 
 """---- Encoding ----------------------------------------------------------------
 set fileformat=unix

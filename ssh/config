@@ -7,15 +7,24 @@ Host lxplus
     User ltsai
     Port 22
     TCPKeepAlive yes
+    ServerAliveInterval 1200 
 Host hep1
     HostName hep1.phys.ntu.edu.tw
     User johnson20050
     Port 22
     TCPKeepAlive yes
     IdentityFile ~/.ssh/toHep1
-Host RS
+Host rs
     HostName 140.112.101.186
     User ltsai
     TCPKeepAlive yes
     IdentityFile ~/.ssh/RSlogin
     Port 22
+Host chip02
+    HostName chip02.phy.ncu.edu.tw
+    User ltsai
+    Port 22
+    TCPKeepAlive yes
+    IdentityFile ~/.ssh/ncuchip
+    RSAAuthentication yes
+    

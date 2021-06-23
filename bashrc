@@ -11,20 +11,25 @@ if [ -z "$PS1" ]; then
 fi
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh 
+#source /cvmfs/cms-ib.cern.ch/latest/cmsset_default.sh
 
 # User specific aliases and functions
 
 # export SCRAM_ARCH=slc7_amd64_gcc630    # open it when you login lxplus7
+#export SCRAM_ARCH=slc7_amd64_gcc820   # not able used due to ntu version
+export SCRAM_ARCH=slc7_amd64_gcc700
 export QLOGDIR=/home/ltsai/Work/qjob/qSubMessage/
 #export PATH=${PATH}:${HOME}/local/bin
 export PATH=${HOME}/local/bin:${HOME}/local/usr/bin:${PATH}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/usr/lib/
+#export PYTHONPATH=$PYTHONPATH:/home/ltsai/local/mylib/python
 
 # force to 256 color (in order to use color in tmux
 export TERM='xterm-256color'
 # change the format of the command line
 export PS1='\[\e[0;37m\]\u@\h:\[\e[1;34m\]\w\[\e[0;38m\]\n > '
-export EDITOR=/home/ltsai/local/usr/bin/vim
+export EDITOR=/home/ltsai/local/bin/nvim
+export NCHCHEADER='root://se01.grid.nchc.org.tw/'
 
 
 
@@ -32,7 +37,8 @@ export EDITOR=/home/ltsai/local/usr/bin/vim
 myScriptBase=${HOME}/script
 alias Date="$myScriptBase/tools/Updater.sh"
 alias HISTORYRECORD='vim /home/ltsai/Work/history/Update.txt'
-alias voupdater="$myScriptBase/tools/renewVO.sh" 
+alias voupdater="  source $myScriptBase/tools/renewVO.sh" 
+alias envoupdater="source $myScriptBase/tools/renewVOToENV.sh" 
 alias ll='ls -l'
 alias ls='ls --color=auto'
 alias lt='ls --color=auto -tr'
@@ -40,7 +46,7 @@ alias LS='ls --color=auto -lh'
 alias la='ls --color=auto -a'
 alias Note="$myScriptBase/tools/Note.sh"
 alias ScramRun='cd $CMSSW_BASE/src && scram b -j4 && cd - && cmsRun '
-alias SCRAM='cd $CMSSW_BASE/src&&scram b -j4&&cd -&& '
+alias SCRAM='cd $CMSSW_BASE/src&&scram b -j4&&cd -'
 alias SearchContent="$myScriptBase/tools/scanFile.sh "
 alias nchcview="$myScriptBase/crab/viewNCHC.py"
 alias nchcdownload="$myScriptBase/crab/downloadNCHC.py"
@@ -48,7 +54,7 @@ alias nchcmkdir="$myScriptBase/crab/mkdirInNCHC.py"
 alias nchcrm="$myScriptBase/crab/rmNCHC.py"
 alias a="$myScriptBase/tools/g++CompileRun.sh "
 alias astyle='~/local/usr/bin/astyle  --style=allman'
-alias tmux='tmux -2' # for 256 color output
+#alias tmux='tmux -2' # for 256 color output
 alias cmsenv='eval `scramv1 runtime -sh`'
 alias cmsrel='scramv1 project CMSSW'
 alias crabcheckWrite='/home/ltsai/script/crab/crabCheckWrite.sh'
@@ -79,10 +85,10 @@ alias node19='ssh -x node19'
 alias node20='ssh -x node20'
 alias nodes='$(printf "ssh -x node%02d" $((${RANDOM} % 20 + 1)))'
 alias rm='mv -t ~/.trash'
-alias show='eos'
-alias img='imgcat'
-alias vi='~/local/usr/bin/vim -X'
-alias vis='~/local/usr/bin/vim -X -p'
+alias show='eog'
+alias icat='imgcat'
+alias vi='vim -X'
+alias vis='nvim -X -p'
 alias qjobs='qstat -u ltsai'
 alias qalljobs='qstat'
 alias qclearlog='~/script/qjob/clearQJOBmessageDirectory.py --delete'
@@ -92,8 +98,10 @@ alias root='root -b'
 alias qroot='root -b -q'
 alias figroot='unalias root; alias root="root -l"'
 alias log='less log'
-alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
+#alias rmfig='rm /home/ltsai/Work/LbFrame/workspace/store_fig/*'
+alias rmfig='rm /home/ltsai/Work/workspaceGammaPlusJet/storefig/*' # for ggAnalysis
 alias rmqjobhistory='rm /home/ltsai/Work/qjob/qSubMessage/* ; rm /home/ltsai/Work/qjob/qSubResult/*'
 alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
 alias rmtrash='/bin/rm -rf ~/.trash/* '
 alias grep='grep --color=always'
+alias GREP='/bin/grep'

@@ -1,3 +1,3 @@
 source .bashrc
-tmux ls && tmux at || tmux new
-#source ~/.zshrc
+# detach other connection by -d option
+tmux ls && tmux -2 at -d || tmux new -2
