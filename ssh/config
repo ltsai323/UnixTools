@@ -28,3 +28,8 @@ Host chip02
     IdentityFile ~/.ssh/ncuchip
     RSAAuthentication yes
     
+Host ntu8
+    HostName ntugrid8.phys.ntu.edu.tw
+    User ltsai
+    IdentityFile ~/.ssh/toNTU8
+    Port 22

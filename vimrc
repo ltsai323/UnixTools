@@ -13,6 +13,10 @@ let s:uname = system("uname -s")
 let s:hostname = system("echo $HOSTNAME")
 "let g:vimenv = $HOME.'/local/.vim'
 let g:vimenv = $HOME.'/.vim'
+let g:python_host_skip_check=1
+let g:python_host_prog='/usr/bin/python'
+let g:python3_host_skip_check=1
+let g:python3_host_prog='/dev/null'
 
 ""----  Indention settings  ----------------------------------------------------
 set tabstop=4
@@ -34,7 +38,7 @@ set noincsearch
 
 ""----  Number column settings  ------------------------------------------------
 set number
-set relativenumber
+"set relativenumber
 set numberwidth=3
 set scrolloff=6
 
@@ -65,12 +69,13 @@ set t_Co=256
 
 ""----  Custom key mapping  ----------------------------------------------------
 noremap    <F1>             <nop>
-" repeat last command
-nnoremap    <F1>            @:
-" execute current file
-nnoremap    <F4>            :!./%
 " execute make command
-nnoremap    <F5>            :!make
+nnoremap    <F1>            :w<CR>:make <Up>
+" repeat last command
+nnoremap    <F3>            @:
+" execute current file
+"nnoremap    <F4>            :w<CR>:!python ./% <Up>
+nnoremap    <F4>            :w<CR>:!./% <Up>
 nnoremap    <F2>            :tabe<Space>
 nnoremap    <F8>            :tabp<CR>
 nnoremap    <F9>            :tabn<CR>
@@ -114,7 +119,8 @@ Plugin 'drmingdrmer/vim-syntax-markdown', { 'for': 'markdown' }
 Plugin 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plugin 'Mizuchi/STL-Syntax', { 'for': 'cpp' }
 Plugin 'hdima/python-syntax', { 'for':'python' }
-Plugin 'easymotion/vim-easymotion'
+"Plugin 'easymotion/vim-easymotion'
+Plugin 'justinmk/vim-sneak'
 "Plugin 'ycm-core/YouCompleteme'
 call vundle#end()
 filetype on 
@@ -215,3 +221,25 @@ autocmd Filetype html,xml   let b:comment_tailer = '-->'
 autocmd Filetype markdown   let b:comment_leader = '<!--'
 autocmd Filetype markdown   let b:comment_tailer = '-->'
 autocmd FileType conf,fstab let b:comment_leader = '#'
+
+
+
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:    ' . a:cmdline)
+  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction

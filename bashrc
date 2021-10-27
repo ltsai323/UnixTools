@@ -26,6 +26,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/usr/lib/
 
 # force to 256 color (in order to use color in tmux
 export TERM='xterm-256color'
+source ${HOME}/.iterm2_shell_integration.bash
 # change the format of the command line
 export PS1='\[\e[0;37m\]\u@\h:\[\e[1;34m\]\w\[\e[0;38m\]\n > '
 export EDITOR=/home/ltsai/local/bin/nvim
@@ -48,16 +49,17 @@ alias Note="$myScriptBase/tools/Note.sh"
 alias ScramRun='cd $CMSSW_BASE/src && scram b -j4 && cd - && cmsRun '
 alias SCRAM='cd $CMSSW_BASE/src&&scram b -j4&&cd -'
 alias SearchContent="$myScriptBase/tools/scanFile.sh "
-alias nchcview="$myScriptBase/crab/viewNCHC.py"
-alias nchcdownload="$myScriptBase/crab/downloadNCHC.py"
-alias nchcmkdir="$myScriptBase/crab/mkdirInNCHC.py"
-alias nchcrm="$myScriptBase/crab/rmNCHC.py"
+alias nchcview="$myScriptBase/CRAB/viewNCHC.py"
+#alias nchcdownload="$myScriptBase/CRAB/downloadNCHC.py"
+alias nchcdownload="sh $myScriptBase/CRAB/nchcdwn.sh"
+alias nchcmkdir="$myScriptBase/CRAB/mkdirInNCHC.py"
+alias nchcrm="$myScriptBase/CRAB/rmNCHC.py"
 alias a="$myScriptBase/tools/g++CompileRun.sh "
 alias astyle='~/local/usr/bin/astyle  --style=allman'
 #alias tmux='tmux -2' # for 256 color output
 alias cmsenv='eval `scramv1 runtime -sh`'
 alias cmsrel='scramv1 project CMSSW'
-alias crabcheckWrite='/home/ltsai/script/crab/crabCheckWrite.sh'
+alias crabcheckWrite='/home/ltsai/script/CRAB/crabCheckWrite.sh'
 alias g++11='g++ -std=c++0x -o a'
 alias groot="$myScriptBase/tools/compileGRoot.sh "
 alias grootfit="$myScriptBase/tools/compileGRooFit.sh " 
@@ -87,8 +89,9 @@ alias nodes='$(printf "ssh -x node%02d" $((${RANDOM} % 20 + 1)))'
 alias rm='mv -t ~/.trash'
 alias show='eog'
 alias icat='imgcat'
-alias vi='vim -X'
+alias vi='nvim -X'
 alias vis='nvim -X -p'
+alias vim='vim -X'
 alias qjobs='qstat -u ltsai'
 alias qalljobs='qstat'
 alias qclearlog='~/script/qjob/clearQJOBmessageDirectory.py --delete'
@@ -105,3 +108,5 @@ alias timerecord='/home/ltsai/script/tools/scheduleRecorder.py'
 alias rmtrash='/bin/rm -rf ~/.trash/* '
 alias grep='grep --color=always'
 alias GREP='/bin/grep'
+alias TBrowser="sh ~/script/tools/tbrowsing.sh"
+alias findpath='python  ~/script/tools/LocallyBrowseRootFiles.py'

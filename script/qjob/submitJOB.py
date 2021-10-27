@@ -9,9 +9,9 @@
 #    os.system('./submitJOB.py --command={} --name={}'.format(command.format(i,i,i,i), 'runMCjob_{:02d}'.foramt(i))
 #
 # note, you need to check if you have such directory to write qjob summary!
-defaultStorageFolder='/home/ltsai/Work/qjob/qSubResult/'
-defaultMessageFolder='/home/ltsai/Work/qjob/qSubMessage/'
-defaultErrorFolder  ='/home/ltsai/Work/qjob/qSubMessage/'
+defaultStorageFolder='{currentdir}/qjobs/'
+defaultMessageFolder='{currentdir}/qjobs/'
+defaultErrorFolder  ='{currentdir}/qjobs/'
 USER='ltsai'
 
 ###############################
@@ -77,6 +77,7 @@ def addOption():
 
     return parser.parse_args()
 
+import os
 if __name__ == "__main__":
     args=addOption()
     if not args.command:
@@ -86,8 +87,13 @@ if __name__ == "__main__":
     cmsEnv=getCMSSWVersion()
     pwd=getCurrentPath()
 
+    if not os.path.isdir('qjobs'):
+        os.mkdir('qjobs')
     file=open( "/tmp/{}/tmpSh.sh".format(args.user), "w" )
-    file.write( submitSample.format(defaultStorageFolder, defaultMessageFolder, defaultErrorFolder, cmsEnv, pwd, args.command) )
+    outdir=defaultStorageFolder.format(currentdir=os.getcwd())
+    msgdir=defaultMessageFolder.format(currentdir=os.getcwd())
+    errdir=defaultErrorFolder.format(currentdir=os.getcwd())
+    file.write( submitSample.format(outdir,msgdir,errdir, cmsEnv, pwd, args.command) )
     file.close()
     import os
     if args.lowPriority:
