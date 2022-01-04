@@ -32,6 +32,9 @@ export PS1='\[\e[0;37m\]\u@\h:\[\e[1;34m\]\w\[\e[0;38m\]\n > '
 export EDITOR=/home/ltsai/local/bin/nvim
 export NCHCHEADER='root://se01.grid.nchc.org.tw/'
 
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 
 
 
