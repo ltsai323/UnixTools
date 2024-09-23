@@ -18,6 +18,7 @@ let g:python_host_prog='/usr/bin/python'
 let g:python3_host_skip_check=1
 let g:python3_host_prog='/dev/null'
 
+
 ""----  Indention settings  ----------------------------------------------------
 set tabstop=4
 set softtabstop=4
@@ -35,10 +36,11 @@ set showmatch
 set hlsearch
 set hls
 set noincsearch
+set smartcase
 
 ""----  Number column settings  ------------------------------------------------
 set number
-"set relativenumber
+set relativenumber
 set numberwidth=3
 set scrolloff=6
 
@@ -70,12 +72,13 @@ set t_Co=256
 ""----  Custom key mapping  ----------------------------------------------------
 noremap    <F1>             <nop>
 " execute make command
-nnoremap    <F1>            :w<CR>:make <Up>
+nnoremap    <F1>            :w<CR>
 " repeat last command
 nnoremap    <F3>            @:
 " execute current file
 "nnoremap    <F4>            :w<CR>:!python ./% <Up>
-nnoremap    <F4>            :w<CR>:!./% <Up>
+" execute last command
+nnoremap    <F4>            :w<CR>:!  <Up>
 nnoremap    <F2>            :tabe<Space>
 nnoremap    <F8>            :tabp<CR>
 nnoremap    <F9>            :tabn<CR>
@@ -95,6 +98,8 @@ noremap <ScrollWheelRight> <nop>
 noremap <S-ScrollWheelRight> <nop>
 noremap <C-ScrollWheelRight> <nop>
 
+inoremap    <F1>            <ESC>:w<CR>
+inoremap    <F4>            <ESC>:w<CR>:!  <Up>
 
 ""----  File name auto completion settings  ------------------------------------
 set wildmenu
@@ -243,3 +248,5 @@ function! s:RunShellCommand(cmdline)
   setlocal nomodifiable
   1
 endfunction
+
+set cpt=.,w,b,u,t
