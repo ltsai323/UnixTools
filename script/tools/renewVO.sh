@@ -9,6 +9,6 @@
 grid-proxy-init -debug -verify -valid 192:00 -out ${HOME}/.x509up_u${UID}
 export X509_USER_PROXY=${HOME}/.x509up_u${UID}
 # Choose time range you want to run jobs or CRAB
-#voms-proxy-init -voms cms --valid 192:00
+voms-proxy-init -voms cms --valid 192:00
 
 #cp ${temp

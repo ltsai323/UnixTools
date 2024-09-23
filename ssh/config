@@ -2,15 +2,19 @@ Host git
     HostName github.com
     User git
     IdentityFile ~/.ssh/gitKey
+Host github.com
+    HostName github.com
+    IdentityFile ~/.ssh/gitKey
 Host lxplus
-    HostName lxplus7.cern.ch
+    HostName lxplus.cern.ch
     User ltsai
     Port 22
     TCPKeepAlive yes
     ServerAliveInterval 1200 
+
 Host hep1
     HostName hep1.phys.ntu.edu.tw
-    User johnson20050
+    User ltsai
     Port 22
     TCPKeepAlive yes
     IdentityFile ~/.ssh/toHep1
@@ -32,4 +36,9 @@ Host ntu8
     HostName ntugrid8.phys.ntu.edu.tw
     User ltsai
     IdentityFile ~/.ssh/toNTU8
+    Port 22
+Host ntu5
+    HostName ntugrid5.phys.ntu.edu.tw
+    User ltsai
+    IdentityFile ~/.ssh/toNTU
     Port 22

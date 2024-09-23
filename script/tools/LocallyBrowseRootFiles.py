@@ -58,8 +58,9 @@ def RecordRes(finalFolder):
     print 'output text : ' + oPath
     rootfiles=[ os.path.abspath(finalFolder._cDir+'/'+rootfile)
                 for rootfile in os.listdir(finalFolder._cDir) if '.root' == rootfile[-5:] ]
-    f=open(oPath,'w')
-    f.write('\n'.join(rootfiles))
+    f=open(oPath,'a')
+    for l in rootfiles:
+        f.write(l + '\n')
     f.close()
 
 
@@ -93,7 +94,10 @@ def findall(startpoint):
 
 if __name__ == '__main__':
     import sys
+    import os
     startdir=InputDir(sys.argv)
+
+    printchecker = True if len([ 1 for v in os.listdir('.') if '.txt' in v ]) > 0 else False
 
     pool=FolderPool()
     #findall('/home/ltsai/TMP')
@@ -103,5 +107,14 @@ if __name__ == '__main__':
         if a.IsEndPoint:
             print a._cDir
             RecordRes(a)
+
+    if printchecker: print '''
+    ================================================================================
+    Warning : The file is opened at "append mode". Originally there exists text file
+    originally, output files might contain old content. Check before use.
+    ================================================================================
+
+    '''
+
 
 
