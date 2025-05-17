@@ -23,7 +23,7 @@ map('n', '<F8>', ':tabp<CR>', opt_show)
 map('n', '<F9>', ':tabn<CR>', opt_show)
 
 map('n', '<leader>W', ':call DeleteTrailingWS()<CR>', opt_show)
-map('n', '<leader>R', ':source $MYVIMRC<CR>', opt_show)
+map('n', '<leader>R', ':call ReloadVIMRC<CR>', opt_show)
 
 map('', '<ScrollWheelUp>', '<Nop>', {noremap = false})
 map('', '<S-ScrollWheelUp>', '<Nop>', {noremap = false})

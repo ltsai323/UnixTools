@@ -10,6 +10,11 @@
 vim.g.neoformat_enabled_cpp = {'clangformat'}
 vim.g.neoformat_enabled_python = {'yapf'}
 vim.g.neoformat_enabled_bash = {'shfmt'}
+vim.g.neoformat_sh_shfmt = {
+    exe = "shfmt",
+    args = {"-ln=bash"},
+    stdin = false
+}
 vim.g.neoformat_enabled_javascript = {'prettier'}
 -- vim.g.neoformat_enabled_html = {'htmlbeautifier'}
 vim.g.neoformat_enabled_html = {'prettier'}

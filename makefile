@@ -1,9 +1,9 @@
 .PHONY: help
 
 neovim_backup: ## backup neovim rc file
-	sh repo_func.sh ~/.config/nvim nvim
+	sh repo_func.sh ~/.config/nvim/ nvim/
 neovim_restore: ## backup neovim rc file
-	sh repo_func.sh nvim ~/.config/nvim
+	sh repo_func.sh nvim/ ~/.config/nvim/
 vim_backup: ## backup vimrc file
 	sh repo_func.sh ~/.vimrc vimrc
 vim_restore: ## backup vimrc file
